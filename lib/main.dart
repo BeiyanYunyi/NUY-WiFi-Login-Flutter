@@ -1,6 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:wifilogin/api/get_ip.dart';
+import 'package:wifilogin/api/login.dart';
 import 'package:wifilogin/components/form.dart' as app_form;
+import 'package:wifilogin/data/consts.dart';
+import 'package:wifilogin/data/login_form_data.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,15 +22,18 @@ class MyApp extends StatelessWidget {
     /*
     return ;
     */
-    return MaterialApp(
-      title: '信带 WiFi',
-      theme: ThemeData(
-        fontFamily: 'customFont',
-        primarySwatch: Colors.teal,
-        useMaterial3: true,
-        // colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)),
+    return ChangeNotifierProvider<LoginFormData>(
+      create: (_) => LoginFormData(username: '', password: '', isp: ISP.cmcc),
+      child: MaterialApp(
+        title: '信带 WiFi',
+        theme: ThemeData(
+          fontFamily: 'customFont',
+          primarySwatch: Colors.teal,
+          useMaterial3: true,
+          // colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)),
+        ),
+        home: const MyHomePage(title: '信带 WiFi'),
       ),
-      home: const MyHomePage(title: '信带 WiFi'),
     );
   }
 }
@@ -49,8 +59,15 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String _ip = '';
 
+  String _loginResText = '';
+
+  static const platform = MethodChannel('club.penclub.wifilogin/default');
+
   @override
   Widget build(BuildContext context) {
+    getIP().then((value) => {
+          setState(() => {_ip = value.data})
+        });
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -84,22 +101,37 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
             Text(
               '你的 IP：$_ip',
               style: Theme.of(context).textTheme.headline4,
             ),
-            const app_form.Form(),
+            Text(
+              _loginResText != '' ? '登录结果：$_loginResText' : '',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            Container(
+                margin: const EdgeInsets.all(appMargin),
+                child: const app_form.Form()),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
-          getIP().then((value) => {
-                setState(() => {_ip = value.data})
-              })
+          login(
+                  form: Provider.of<LoginFormData>(context, listen: false),
+                  ip: _ip)
+              .then((res) => {
+                    setState(() => {_loginResText = "登录成功"}),
+                    platform.invokeMethod("reportCaptivePortalDismissed")
+                  })
+              .catchError((err) => {
+                    log(err.toString(), level: 4),
+                    setState(() => {
+                          _loginResText = (err as Exception)
+                              .toString()
+                              .replaceFirst('Exception: ', '')
+                        })
+                  })
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),

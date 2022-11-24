@@ -1,30 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-enum ISP { cmcc, chinaNet, chinaUnicom, nuist }
-
-class LoginFormData extends ChangeNotifier {
-  String username;
-  String password;
-  ISP isp;
-  LoginFormData(
-      {required this.username, required this.password, required this.isp});
-
-  void setUsername(String username) {
-    this.username = username;
-    notifyListeners();
-  }
-
-  void setPassword(String password) {
-    this.password = password;
-    notifyListeners();
-  }
-
-  void setISP(ISP isp) {
-    this.isp = isp;
-    notifyListeners();
-  }
-}
+import 'package:wifilogin/data/consts.dart';
+import 'package:wifilogin/data/login_form_data.dart';
 
 class Form extends StatefulWidget {
   const Form({super.key});
@@ -36,29 +13,46 @@ class Form extends StatefulWidget {
 class _FormState extends State<Form> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<LoginFormData>(
-        create: (_) => LoginFormData(username: '', password: '', isp: ISP.cmcc),
-        child: Consumer<LoginFormData>(
-            builder: (context, formData, child) => Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(formData.password),
-                    TextField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: '用户名',
-                      ),
-                      onChanged: (value) => formData.setUsername(value),
-                    ),
-                    TextField(
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: '密码',
-                      ),
-                      onChanged: (value) => formData.setPassword(value),
-                    ),
-                  ],
-                )));
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        DropdownButton(
+            items: const [
+              DropdownMenuItem(value: ISP.cmcc, child: Text('中国移动')),
+              DropdownMenuItem(value: ISP.chinaNet, child: Text('中国电信')),
+              DropdownMenuItem(value: ISP.chinaUnicom, child: Text('中国联通')),
+              DropdownMenuItem(value: ISP.nuist, child: Text('信带土著')),
+            ],
+            value: Provider.of<LoginFormData>(context).isp,
+            onChanged: (value) =>
+                Provider.of<LoginFormData>(context, listen: false)
+                    .setISP(value ?? ISP.cmcc)),
+        Container(
+          margin: const EdgeInsets.only(top: appMargin),
+          child: TextField(
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: '用户名',
+            ),
+            onChanged: (value) =>
+                Provider.of<LoginFormData>(context, listen: false)
+                    .setUsername(value),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: appMargin),
+          child: TextField(
+            obscureText: true,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: '密码',
+            ),
+            onChanged: (value) =>
+                Provider.of<LoginFormData>(context, listen: false)
+                    .setPassword(value),
+          ),
+        )
+      ],
+    );
   }
 }
