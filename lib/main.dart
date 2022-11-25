@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wifilogin/components/my_home_page.dart';
+import 'package:wifilogin/components/my_scaffold.dart';
+import 'package:wifilogin/data/location.dart';
 import 'package:wifilogin/data/login_form_data.dart';
 
 void main() {
@@ -14,28 +16,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(LoginFormData());
+    Get.put(LocationData());
     return GetMaterialApp(
-      title: '信带 WiFi',
+      title: '元带 WiFi',
+      transitionDuration: const Duration(milliseconds: 200),
       theme: ThemeData(
-        fontFamily: 'customFont',
+        fontFamily: defaultTargetPlatform == TargetPlatform.windows
+            ? 'Microsoft YaHei UI'
+            : null,
         primarySwatch: Colors.teal,
         useMaterial3: true,
         // colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)),
       ),
       darkTheme: ThemeData.dark(useMaterial3: true),
+      home: const MyScaffold(),
       initialRoute: '/',
-      getPages: [
-        GetPage(
-            name: '/',
-            page: () => const MyHomePage(title: '信带 WiFi'),
-            transition: Transition.leftToRight,
-            transitionDuration: const Duration(milliseconds: 200)),
-        GetPage(
-            name: '/my',
-            page: () => const MyHomePage(title: '我对信带的看法'),
-            transition: Transition.rightToLeft,
-            transitionDuration: const Duration(milliseconds: 200)),
-      ],
     );
   }
 }

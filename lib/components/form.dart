@@ -11,16 +11,6 @@ class Form extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Obx(() => DropdownButton(
-            isExpanded: true,
-            items: const [
-              DropdownMenuItem(value: ISP.cmcc, child: Text('中国移动')),
-              DropdownMenuItem(value: ISP.chinaNet, child: Text('中国电信')),
-              DropdownMenuItem(value: ISP.chinaUnicom, child: Text('中国联通')),
-              DropdownMenuItem(value: ISP.nuist, child: Text('信带土著')),
-            ],
-            value: c.isp.value,
-            onChanged: (value) => c.isp.value = value ?? ISP.cmcc)),
         Container(
           margin: const EdgeInsets.only(top: appMargin),
           child: TextField(
@@ -43,7 +33,24 @@ class Form extends StatelessWidget {
             controller: c.passwordController,
             onChanged: (value) => c.password.value = value,
           ),
-        )
+        ),
+        Container(
+            margin: const EdgeInsets.only(top: appMargin),
+            child: Obx(() => DropdownButtonFormField(
+                isExpanded: true,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "运营商",
+                ),
+                borderRadius: BorderRadius.circular(10),
+                items: const [
+                  DropdownMenuItem(value: ISP.cmcc, child: Text('中国移动')),
+                  DropdownMenuItem(value: ISP.chinaNet, child: Text('中国电信')),
+                  DropdownMenuItem(value: ISP.chinaUnicom, child: Text('中国联通')),
+                  DropdownMenuItem(value: ISP.nuist, child: Text('元带土著')),
+                ],
+                value: c.isp.value,
+                onChanged: (value) => c.isp.value = value ?? ISP.cmcc))),
       ],
     );
   }
