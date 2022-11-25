@@ -43,7 +43,7 @@ Future<LoginRes> login(
     {required LoginFormData form, required String ip}) async {
   final url = Uri.parse('http://10.255.255.46/api/v1/login');
   String isp = '';
-  switch (form.isp) {
+  switch (form.isp.value) {
     case ISP.nuist:
       isp = '1';
       break;
@@ -58,8 +58,8 @@ Future<LoginRes> login(
   }
   final response = await http.post(url,
       body: jsonEncode(LoginReq.toJson(LoginReq(
-          username: form.username,
-          password: form.password,
+          username: form.username.value,
+          password: form.password.value,
           channel: isp,
           ifautologin: '1',
           pagesign: "secondauth",

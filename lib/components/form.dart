@@ -1,32 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 import 'package:wifilogin/data/consts.dart';
 import 'package:wifilogin/data/login_form_data.dart';
 
-class Form extends StatefulWidget {
+class Form extends StatelessWidget {
   const Form({super.key});
-
-  @override
-  State<Form> createState() => _FormState();
-}
-
-class _FormState extends State<Form> {
   @override
   Widget build(BuildContext context) {
+    final LoginFormData c = Get.find();
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        DropdownButton(
+        Obx(() => DropdownButton(
+            isExpanded: true,
             items: const [
               DropdownMenuItem(value: ISP.cmcc, child: Text('中国移动')),
               DropdownMenuItem(value: ISP.chinaNet, child: Text('中国电信')),
               DropdownMenuItem(value: ISP.chinaUnicom, child: Text('中国联通')),
               DropdownMenuItem(value: ISP.nuist, child: Text('信带土著')),
             ],
-            value: Provider.of<LoginFormData>(context).isp,
-            onChanged: (value) =>
-                Provider.of<LoginFormData>(context, listen: false)
-                    .setISP(value ?? ISP.cmcc)),
+            value: c.isp.value,
+            onChanged: (value) => c.isp.value = value ?? ISP.cmcc)),
         Container(
           margin: const EdgeInsets.only(top: appMargin),
           child: TextField(
@@ -34,9 +28,8 @@ class _FormState extends State<Form> {
               border: OutlineInputBorder(),
               labelText: '用户名',
             ),
-            onChanged: (value) =>
-                Provider.of<LoginFormData>(context, listen: false)
-                    .setUsername(value),
+            controller: c.usernameController,
+            onChanged: (value) => c.username.value = value,
           ),
         ),
         Container(
@@ -47,9 +40,8 @@ class _FormState extends State<Form> {
               border: OutlineInputBorder(),
               labelText: '密码',
             ),
-            onChanged: (value) =>
-                Provider.of<LoginFormData>(context, listen: false)
-                    .setPassword(value),
+            controller: c.passwordController,
+            onChanged: (value) => c.password.value = value,
           ),
         )
       ],

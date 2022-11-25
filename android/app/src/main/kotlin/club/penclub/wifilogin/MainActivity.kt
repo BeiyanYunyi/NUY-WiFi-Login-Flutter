@@ -30,18 +30,20 @@ class MainActivity : FlutterActivity() {
 
   override fun onStart() {
     super.onStart()
-    var net: Network? = null
+    var net: Network? = intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK)
     val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val nets = cm.allNetworks
-    nets.forEach { network ->
-      val info = cm.getNetworkInfo(network)
-      if (info?.type == ConnectivityManager.TYPE_WIFI) {
-        net = network
+    if (net == null) {
+      val nets = cm.allNetworks
+      nets.forEach { network ->
+        val info = cm.getNetworkInfo(network)
+        if (info?.type == ConnectivityManager.TYPE_WIFI) {
+          net = network
+        }
       }
+    } else {
+      Log.e("FFF", net.toString())
     }
-    Log.e("FFF", "asdfasf!")
     if (net != null) {
-      Log.e("FFF", "FkYou!")
       cm.bindProcessToNetwork(net)
     }
   }
