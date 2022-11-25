@@ -33,7 +33,7 @@ class InfoPage extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.only(top: 8.0),
               child: Text(
-                  "在使用本 App 作为打开方式打开“连接到 i-NUSHIT”时，请勿选择“总是”，否则你就没法连其它需要用这种方式登录的 WiFi 了，除非卸载重装。"),
+                  "在使用本 App 作为打开方式打开“连接到 i-NUY”时，请勿选择“总是”，否则你就没法连其它需要用这种方式登录的 WiFi 了，除非卸载重装。"),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),

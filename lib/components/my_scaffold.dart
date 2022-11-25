@@ -21,7 +21,12 @@ class MyScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final LoginFormData c = Get.find();
     final LocationData loc = Get.find();
-    getIP().then((value) => c.ip.value = value.data);
+    getIP().then((value) {
+      c.ip.value = value.data;
+      c.loading.value = false;
+    }).catchError((e) {
+      log(e.toString());
+    });
     c.load();
 
     return Obx(() => Scaffold(
@@ -35,30 +40,36 @@ class MyScaffold extends StatelessWidget {
           bottomNavigationBar: const MyNavigationBar(),
           floatingActionButton: loc.loc.value == 0
               ? FloatingActionButton(
-                  onPressed: () {
-                    login(form: c, ip: c.ip.value)
-                        .then((res) => {
-                              Get.snackbar("登录成功", res.message,
-                                  duration: const Duration(seconds: 1)),
-                              if (defaultTargetPlatform ==
-                                  TargetPlatform.android)
-                                {
-                                  platform.invokeMethod(
-                                      "reportCaptivePortalDismissed")
-                                }
-                            })
-                        .then((res) => c.save())
-                        .catchError((err) => {
-                              log(err.toString(), level: 4),
-                              Get.snackbar(
-                                  "登录失败",
-                                  (err as Exception)
-                                      .toString()
-                                      .replaceFirst('Exception: ', '')),
-                            });
-                  },
+                  onPressed: c.loading.value
+                      ? null
+                      : () {
+                          login(form: c, ip: c.ip.value)
+                              .then((res) => {
+                                    Get.snackbar("登录成功", res.message,
+                                        duration: const Duration(seconds: 1)),
+                                    if (defaultTargetPlatform ==
+                                        TargetPlatform.android)
+                                      {
+                                        platform.invokeMethod(
+                                            "reportCaptivePortalDismissed")
+                                      }
+                                  })
+                              .then((res) => c.save())
+                              .catchError((err) => {
+                                    log(err.toString(), level: 4),
+                                    Get.snackbar(
+                                        "登录失败",
+                                        (err as Exception)
+                                            .toString()
+                                            .replaceFirst('Exception: ', '')),
+                                  });
+                        },
                   tooltip: '登录',
-                  child: const Icon(Icons.send),
+                  child: Obx(() => c.loading.value
+                      ? const CircularProgressIndicator(
+                          color: Colors.white,
+                        )
+                      : const Icon(Icons.send)),
                 )
               : null, // This trailing comma makes auto-formatting nicer for build methods.
         ));

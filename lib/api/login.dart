@@ -44,7 +44,7 @@ Future<LoginRes> login(
   final url = Uri.parse('http://10.255.255.46/api/v1/login');
   String isp = '';
   switch (form.isp.value) {
-    case ISP.nuist:
+    case ISP.nuy:
       isp = '1';
       break;
     case ISP.cmcc:

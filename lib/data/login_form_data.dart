@@ -2,12 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum ISP { cmcc, chinaNet, chinaUnicom, nuist }
+enum ISP { cmcc, chinaNet, chinaUnicom, nuy }
 
 class LoginFormData extends GetxController {
   var username = ''.obs;
   var password = ''.obs;
   var ip = ''.obs;
+  var loading = true.obs;
   var isp = ISP.cmcc.obs;
   LoginFormData();
   TextEditingController usernameController = TextEditingController();

@@ -47,7 +47,7 @@ class Form extends StatelessWidget {
                   DropdownMenuItem(value: ISP.cmcc, child: Text('中国移动')),
                   DropdownMenuItem(value: ISP.chinaNet, child: Text('中国电信')),
                   DropdownMenuItem(value: ISP.chinaUnicom, child: Text('中国联通')),
-                  DropdownMenuItem(value: ISP.nuist, child: Text('元带土著')),
+                  DropdownMenuItem(value: ISP.nuy, child: Text('元带土著')),
                 ],
                 value: c.isp.value,
                 onChanged: (value) => c.isp.value = value ?? ISP.cmcc))),
