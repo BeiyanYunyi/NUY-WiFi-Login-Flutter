@@ -60,12 +60,14 @@ class LoadingIndicator extends StatelessWidget {
               ? null
               : () => {
                     loading.value = true,
-                    getIP().then((value) => c.ip.value = value.data).catchError(
-                        (e) {
+                    getIP().then((value) {
+                      c.loading.value = false;
+                      c.ip.value = value.data;
+                    }).catchError((e) {
                       log(e.toString());
-                      return Future<String>.error(e.toString());
-                    }).whenComplete(
-                        () => {loading.value = false, c.loading.value = false})
+                    }).whenComplete(() {
+                      loading.value = false;
+                    })
                   },
           icon: const Icon(Icons.refresh)))
     ]);
