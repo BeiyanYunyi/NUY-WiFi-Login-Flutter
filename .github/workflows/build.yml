@@ -52,15 +52,9 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
       - name: Build EXE
-        run: flutter build windows
-      - name: Compress
-        uses: thedoctor0/zip-release@main
-        with:
-          type: "zip"
-          path: build\windows\runner\Release
-          filename: "Windows-x86_64.zip"
+        run: flutter build windows --release
       - name: Upload ZIP
         uses: actions/upload-artifact@v3
         with:
           name: Windows-x86_64
-          path: Windows-x86_64.zip
+          path: build\windows\runner\Release
