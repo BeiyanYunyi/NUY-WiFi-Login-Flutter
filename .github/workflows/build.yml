@@ -30,6 +30,7 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
+          name: Android.zip
           path: build/app/outputs/flutter-apk
 
   BuildWindows:
@@ -61,4 +62,5 @@ jobs:
       - name: Upload ZIP
         uses: actions/upload-artifact@v3
         with:
+          name: Windows-x86_64.zip
           path: Windows-x86_64.zip
