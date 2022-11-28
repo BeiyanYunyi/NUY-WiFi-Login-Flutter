@@ -10,15 +10,17 @@ class LoginFormData extends GetxController {
   var ip = ''.obs;
   var loading = true.obs;
   var isp = ISP.cmcc.obs;
+  var autoLogin = false.obs;
   LoginFormData();
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
   Future<void> save() async {
     final prefs = await SharedPreferences.getInstance();
     await Future.wait([
       prefs.setString('username', username.value),
       prefs.setString('password', password.value),
-      prefs.setInt('isp', isp.value.index)
+      prefs.setInt('isp', isp.value.index),
     ]);
   }
 
@@ -31,5 +33,12 @@ class LoginFormData extends GetxController {
     username.value = usernameRes;
     password.value = passwordRes;
     isp.value = ISP.values[prefs.getInt('isp') ?? 0];
+    autoLogin.value = prefs.getBool('autoLogin') ?? false;
+  }
+
+  Future<void> setAutoLogin(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('autoLogin', autoLogin.value);
+    autoLogin.value = value;
   }
 }

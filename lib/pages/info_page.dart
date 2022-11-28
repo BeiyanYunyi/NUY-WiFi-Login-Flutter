@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wifilogin/data/consts.dart';
 
 class InfoPage extends StatelessWidget {
   const InfoPage({Key? key}) : super(key: key);
@@ -19,58 +21,69 @@ class InfoPage extends StatelessWidget {
               style: Theme.of(context).textTheme.headline4,
             ),
             const Padding(
-              padding: EdgeInsets.only(top: 8.0),
+              padding: EdgeInsets.only(top: appMargin),
               child: Text(
                   "你说得对，但是元带 WiFi 是由元带网络使用 Flutter 开发的一款跨平台原生的南元带 WiFi 登录应用。"),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+              padding: const EdgeInsets.only(top: appMargin),
               child: Text(
                 "注意事项",
                 style: Theme.of(context).textTheme.headline5,
               ),
             ),
             const Padding(
-              padding: EdgeInsets.only(top: 8.0),
+              padding: EdgeInsets.only(top: appMargin),
               child: Text(
                   "在使用本 App 作为打开方式打开“连接到 i-NUY”时，请勿选择“总是”，否则你就没法连其它需要用这种方式登录的 WiFi 了，除非卸载重装。"),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+              padding: const EdgeInsets.only(top: appMargin),
               child: Text(
                 "开发者",
                 style: Theme.of(context).textTheme.headline5,
               ),
             ),
             const Padding(
-              padding: EdgeInsets.only(top: 8.0),
+              padding: EdgeInsets.only(top: appMargin),
               child: Text("产品：李家坟头来种树"),
             ),
             const Text("开发：鱼肥果熟入我肚"),
             Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+              padding: const EdgeInsets.only(top: appMargin),
               child: Text(
                 "开源协议",
                 style: Theme.of(context).textTheme.headline5,
               ),
             ),
             const Padding(
-              padding: EdgeInsets.only(top: 8.0),
+              padding: EdgeInsets.only(top: appMargin),
               child: Text("本应用使用 AGPL-3.0 协议开源。"),
             ),
             Padding(
               padding: const EdgeInsets.only(
-                top: 8.0,
+                top: appMargin,
               ),
-              child: TextButton(
-                onPressed: () => {
-                  launchUrl(
-                      Uri.parse(
-                          "https://github.com/lixiang810/NUY-WiFi-Login-Flutter"),
-                      mode: LaunchMode.externalApplication)
-                },
-                child: const Text("查看源代码"),
-              ),
+              child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: (GestureDetector(
+                    onTap: () => {
+                      launchUrl(
+                          Uri.parse(
+                              "https://github.com/lixiang810/NUY-WiFi-Login-Flutter"),
+                          mode: LaunchMode.externalApplication)
+                    },
+                    child: Row(children: [
+                      const FaIcon(FontAwesomeIcons.github),
+                      Container(
+                        padding: const EdgeInsets.only(left: appMargin),
+                        child: const Text(
+                          "查看源代码",
+                          style: TextStyle(color: Colors.blue),
+                        ),
+                      )
+                    ]),
+                  ))),
             ),
           ],
         ),

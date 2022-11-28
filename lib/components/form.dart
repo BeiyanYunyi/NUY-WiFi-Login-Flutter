@@ -51,6 +51,20 @@ class Form extends StatelessWidget {
                 ],
                 value: c.isp.value,
                 onChanged: (value) => c.isp.value = value ?? ISP.cmcc))),
+        Container(
+            margin: const EdgeInsets.only(top: appMargin),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text("自动登录"),
+                Obx(() => Switch(
+                      value: c.autoLogin.value,
+                      onChanged: (value) async {
+                        await c.setAutoLogin(value);
+                      },
+                    )),
+              ],
+            ))
       ],
     );
   }

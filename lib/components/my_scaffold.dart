@@ -17,6 +17,26 @@ class MyScaffold extends StatelessWidget {
   const MyScaffold({super.key});
   static const platform = MethodChannel('club.penclub.wifilogin/default');
 
+  Future<void> loginAction() {
+    final LoginFormData c = Get.find();
+    return login(form: c, ip: c.ip.value)
+        .then((res) => {
+              Get.snackbar("登录成功", res.message,
+                  duration: const Duration(seconds: 1)),
+              if (defaultTargetPlatform == TargetPlatform.android)
+                {platform.invokeMethod("reportCaptivePortalDismissed")}
+            })
+        .then((res) => c.save())
+        .catchError((err) => {
+              log(err.toString(), level: 4),
+              Get.snackbar(
+                  "登录失败",
+                  (err as Exception)
+                      .toString()
+                      .replaceFirst('Exception: ', '')),
+            });
+  }
+
   @override
   Widget build(BuildContext context) {
     final LoginFormData c = Get.find();
@@ -24,10 +44,15 @@ class MyScaffold extends StatelessWidget {
     getIP().then((value) {
       c.ip.value = value.data;
       c.loading.value = false;
+    }).then((_) {
+      return c.load();
+    }).then((_) {
+      if (c.autoLogin.value && (c.password.value != '')) {
+        return loginAction();
+      }
     }).catchError((e) {
       log(e.toString());
     });
-    c.load();
 
     return Obx(() => Scaffold(
           appBar: AppBar(
@@ -40,30 +65,7 @@ class MyScaffold extends StatelessWidget {
           bottomNavigationBar: const MyNavigationBar(),
           floatingActionButton: loc.loc.value == 0
               ? FloatingActionButton(
-                  onPressed: c.loading.value
-                      ? null
-                      : () {
-                          login(form: c, ip: c.ip.value)
-                              .then((res) => {
-                                    Get.snackbar("登录成功", res.message,
-                                        duration: const Duration(seconds: 1)),
-                                    if (defaultTargetPlatform ==
-                                        TargetPlatform.android)
-                                      {
-                                        platform.invokeMethod(
-                                            "reportCaptivePortalDismissed")
-                                      }
-                                  })
-                              .then((res) => c.save())
-                              .catchError((err) => {
-                                    log(err.toString(), level: 4),
-                                    Get.snackbar(
-                                        "登录失败",
-                                        (err as Exception)
-                                            .toString()
-                                            .replaceFirst('Exception: ', '')),
-                                  });
-                        },
+                  onPressed: c.loading.value ? null : loginAction,
                   tooltip: '登录',
                   child: Obx(() => c.loading.value
                       ? const CircularProgressIndicator(
