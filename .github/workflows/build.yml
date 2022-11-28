@@ -53,9 +53,11 @@ jobs:
       - name: Build EXE
         run: flutter build windows
       - name: Compress
-        uses: montudor/action-zip@v1
+        uses: thedoctor0/zip-release@main
         with:
-          args: zip -qq -r Windows-x86_64.zip build\windows\runner\Release
+          type: "zip"
+          path: build\windows\runner\Release
+          filename: "Windows-x86_64.zip"
       - name: Upload ZIP
         uses: actions/upload-artifact@v3
         with:
