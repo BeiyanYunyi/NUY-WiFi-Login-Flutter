@@ -62,5 +62,5 @@ jobs:
       - name: Upload ZIP
         uses: actions/upload-artifact@v3
         with:
-          name: Windows-x86_64.zip
+          name: Windows-x86_64
           path: Windows-x86_64.zip
