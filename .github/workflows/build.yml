@@ -57,6 +57,7 @@ jobs:
           mkdir artf/windows
           mv build/windows/runner/Release/* artf/windows
           mv wifiLogin.nsi artf
+          mv LICENSE artf
       - name: Upload build result
         uses: actions/upload-artifact@v3
         with:
