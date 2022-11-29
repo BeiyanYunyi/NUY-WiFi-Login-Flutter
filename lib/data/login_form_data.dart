@@ -38,7 +38,7 @@ class LoginFormData extends GetxController {
 
   Future<void> setAutoLogin(bool value) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('autoLogin', autoLogin.value);
+    await prefs.setBool('autoLogin', value);
     autoLogin.value = value;
   }
 }
