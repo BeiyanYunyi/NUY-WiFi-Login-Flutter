@@ -38,13 +38,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Install NSIS
-        run: |
-          iwr -useb get.scoop.sh -outfile 'install.ps1'
-          .\install.ps1 -RunAsAdmin
-          scoop update
-          scoop bucket add extras
-          scoop install nsis
       - uses: actions/setup-java@v2
         with:
           distribution: "zulu"
@@ -58,19 +51,23 @@ jobs:
         run: flutter pub get
       - name: Build EXE
         run: flutter build windows --release
-      - name: Make NSIS
-        run: makensis wifiLogin.nsi
-      - name: Upload NSIS
+      - name: Move files
+        run: |
+          mkdir artf
+          mkdir artf/windows
+          mv build/windows/runner/Release/* artf/windows
+          mv wifiLogin.nsi artf
+      - name: Upload build result
         uses: actions/upload-artifact@v3
         with:
           name: Windows-x86_64
-          path: WiFiLogin Installer.exe
+          path: artf
       - name: Build msix
         run: flutter pub run msix:create
       - name: Upload msix
         uses: actions/upload-artifact@v3
         with:
-          name: Windows-x86_64
+          name: Windows-x86_64-msix
           path: build/windows/runner/Release/wifilogin.msix
 
   Release:
@@ -80,22 +77,28 @@ jobs:
       - BuildAndroid
       - BuildWindows
     steps:
+      - name: Install NSIS
+        run: |
+          apt-get update -y
+          apt-get install -y nsis
       - name: Make dir
         run: mkdir artf release
       - name: Get Windows Release
         uses: actions/download-artifact@v3
         with:
           name: Windows-x86_64
-          path: release
+          path: artf
+      - name: Build MSYS
+        run: |
+          cd artf
+          makensis wifiLogin.nsi
+          mv "WiFiLogin Installer.exe" ../release/Windows-x86_64-NSIS-Installer.exe
+          cd ..
       - name: Get Android Release
         uses: actions/download-artifact@v3
         with:
           name: Android
           path: release
-      - name: Compress Windows Release
-        run: |
-          cd release
-          mv "WiFiLogin Installer.exe" Windows-x86_64-NSIS-Installer.exe
       - name: Release
         uses: fnkr/github-action-ghr@v1
         env:

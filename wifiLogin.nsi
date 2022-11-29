@@ -54,7 +54,7 @@ Section "NUY WiFi Login (required)"
   SetOutPath $INSTDIR
   
   ; Put file there
-  File /r "build\windows\runner\Release\*"
+  File /r "windows\*"
   
   ; Write the installation path into the registry
   WriteRegStr HKLM "Software\NUY WiFi Login" "Install_Dir" "$INSTDIR"
