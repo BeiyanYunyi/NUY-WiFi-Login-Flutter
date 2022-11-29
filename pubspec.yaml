@@ -17,7 +17,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.1+0
+version: 1.0.2+0
 
 environment:
   sdk: ">=2.18.4 <3.0.0"
@@ -106,7 +106,7 @@ msix_config:
   publisher_display_name: 凌莞
   identity_name: 22369479C5405.WiFi
   publisher: CN=86A51452-7790-46C3-9A4B-1207C2C97940
-  msix_version: 1.0.1.0
+  msix_version: 1.0.2.0
   capabilities: internetClient
   # signtool_options: /fd sha256 /sha1 EA1BCFFF4E98923EA42BE03C719FE1E901E2A863 /tr http://timestamp.digicert.com
   store: true
