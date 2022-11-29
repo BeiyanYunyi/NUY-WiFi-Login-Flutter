@@ -80,8 +80,8 @@ jobs:
     steps:
       - name: Install NSIS
         run: |
-          apt-get update -y
-          apt-get install -y nsis
+          sudo apt-get update -y
+          sudo apt-get install -y nsis
       - name: Make dir
         run: mkdir artf release
       - name: Get Windows Release
