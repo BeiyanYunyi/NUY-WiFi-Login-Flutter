@@ -56,6 +56,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  msix: ^3.7.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -84,9 +85,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   #fonts:
-    #- family: customFont
-    #  fonts:
-    #    - asset: assets/fonts/SourceHanSansSC-VF.ttf.woff2
+  #- family: customFont
+  #  fonts:
+  #    - asset: assets/fonts/SourceHanSansSC-VF.ttf.woff2
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
@@ -100,3 +101,12 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+msix_config:
+  display_name: 南元 WiFi 登录
+  publisher_display_name: 凌莞
+  identity_name: 22369479C5405.WiFi
+  publisher: CN=86A51452-7790-46C3-9A4B-1207C2C97940
+  msix_version: 1.0.1.0
+  capabilities: internetClient
+  # signtool_options: /fd sha256 /sha1 EA1BCFFF4E98923EA42BE03C719FE1E901E2A863 /tr http://timestamp.digicert.com
+  store: true
