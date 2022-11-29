@@ -60,9 +60,7 @@ jobs:
       - name: Build EXE
         run: flutter build windows --release
       - name: Make NSIS
-        uses: joncloud/makensis-action@v3
-        with:
-          script-file: wifiLogin.nsi
+        run: makensis wifiLogin.nsi
       - name: Upload NSIS
         uses: actions/upload-artifact@v3
         with:
