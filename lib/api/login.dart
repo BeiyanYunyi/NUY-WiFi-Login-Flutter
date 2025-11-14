@@ -41,7 +41,7 @@ class LoginRes {
 
 Future<LoginRes> login(
     {required LoginFormData form, required String ip}) async {
-  final url = Uri.parse('http://10.255.255.46/api/v1/login');
+  final url = Uri.parse('http://10.255.255.16/api/v1/login');
   String isp = '';
   switch (form.isp.value) {
     case ISP.nuy:
