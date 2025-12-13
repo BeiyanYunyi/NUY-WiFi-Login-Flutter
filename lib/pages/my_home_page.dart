@@ -23,7 +23,7 @@ class MyHomePage extends StatelessWidget {
           Obx(() => c.ip.value != ''
               ? Text(
                   '你的 IP：${c.ip}',
-                  style: Theme.of(context).textTheme.headline4,
+                  style: Theme.of(context).textTheme.headlineMedium,
                 )
               : const SizedBox()),
           Container(
