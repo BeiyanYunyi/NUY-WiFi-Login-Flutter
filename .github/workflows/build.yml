@@ -55,7 +55,7 @@ jobs:
         run: |
           mkdir artf
           mkdir artf/windows
-          mv build/windows/runner/Release/* artf/windows
+          mv build/windows/x64/runner/Release/* artf/windows
           mv wifiLogin.nsi artf
           mv LICENSE artf
       - name: Upload build result
@@ -69,7 +69,7 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: Windows-x86_64-msix
-          path: build/windows/runner/Release/wifilogin.msix
+          path: build/windows/x64/runner/Release/wifilogin.msix
 
   Release:
     runs-on: ubuntu-latest
