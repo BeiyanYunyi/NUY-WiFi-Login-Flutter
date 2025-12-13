@@ -16,7 +16,7 @@ class GetIPRes {
 }
 
 Future<GetIPRes> getIP() async {
-  final url = Uri.parse('http://10.255.255.46/api/v1/ip');
+  final url = Uri.parse('http://10.255.255.16/api/v1/ip');
   final response = await http.get(url);
   if (response.statusCode == 200) {
     return GetIPRes.fromJson(jsonDecode(response.body));
