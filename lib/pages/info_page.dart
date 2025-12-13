@@ -18,7 +18,7 @@ class InfoPage extends StatelessWidget {
           children: [
             Text(
               "元带 WiFi",
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme.of(context).textTheme.headlineLarge,
             ),
             const Padding(
               padding: EdgeInsets.only(top: appMargin),
@@ -29,7 +29,7 @@ class InfoPage extends StatelessWidget {
               padding: const EdgeInsets.only(top: appMargin),
               child: Text(
                 "注意事项",
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),
             const Padding(
@@ -41,7 +41,7 @@ class InfoPage extends StatelessWidget {
               padding: const EdgeInsets.only(top: appMargin),
               child: Text(
                 "开发者",
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),
             const Padding(
@@ -53,7 +53,7 @@ class InfoPage extends StatelessWidget {
               padding: const EdgeInsets.only(top: appMargin),
               child: Text(
                 "开源协议",
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),
             const Padding(
